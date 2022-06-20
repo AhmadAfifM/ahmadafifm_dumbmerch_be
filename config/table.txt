@@ -1,0 +1,20 @@
+USER TABLE
+npx sequelize-cli model:generate --name user --attributes email:string,password:string,username:string,status:string 
+
+PROFILE TABLE
+npx sequelize-cli model:generate --name profile --attributes phone:string,gender:string,address:text,idUser:integer 
+
+PRODUCTS
+npx sequelize-cli model:generate --name products --attributes product_name:string,desc_product:text,sku_product:string,price_product:integer,qty_product:integer,image_product:string,idUser:integer
+
+TRANSACTION
+npx sequelize-cli model:generate --name transaction --attributes idProduct:integer,idBuyer:integer,idSeller:integer,price:integer,status:string
+
+CATEGORY
+npx sequelize-cli model:generate --name category --attributes name:string
+
+CATEGORY PRODUCT
+npx sequelize-cli model:generate --name category_product --attributes idProduct:integer,idCategory:integer
+
+MIGRATED COMMAND
+npx sequelize-cli db:migrate
