@@ -28,6 +28,15 @@ const { register, login } = require("../controller/auth");
 //Middleware
 const { auth } = require("../middlewares/auth");
 
+//Middleware
+const {
+  addCategory,
+  getCategories,
+  getCategory,
+  updateCategory,
+  deleteCategory,
+} = require("../controller/category");
+
 router.post("/user", auth, addUser);
 router.get("/users", getUsers);
 router.get("/user/:id", auth, getUser);
@@ -45,5 +54,11 @@ router.get("/profile", getProfile);
 
 router.post("/register", register);
 router.get("/login", login);
+
+router.post("/category", addCategory);
+router.get("/categories", getCategories);
+router.get("/category/:id", getCategory);
+router.patch("/category/:id", updateCategory);
+router.delete("/category/:id", deleteCategory);
 
 module.exports = router;
