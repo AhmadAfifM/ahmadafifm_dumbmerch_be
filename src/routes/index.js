@@ -14,9 +14,12 @@ const {
 
 //controller in PRODUCT
 const {
+  getProducts,
   getProduct,
-  getUserProduct,
+  updateProduct,
   addProduct,
+  deleteProduct,
+  getUserProduct,
 } = require("../controller/product");
 
 //controller in AUTH
@@ -26,14 +29,17 @@ const { register, login } = require("../controller/auth");
 const { auth } = require("../middlewares/auth");
 
 router.post("/user", auth, addUser);
-router.get("/users", auth, getUsers);
+router.get("/users", getUsers);
 router.get("/user/:id", auth, getUser);
 router.patch("/user/:id", auth, updateUser);
 router.delete("/user/:id", auth, deleteUser);
 
-router.get("/products", auth, getProduct);
-router.get("/user-products", getUserProduct);
 router.post("/product", addProduct);
+router.get("/products", getProducts);
+router.get("/product/:id", getProduct);
+router.patch("/product/:id", updateProduct);
+router.delete("/product/:id", deleteProduct);
+router.get("/user-products", getUserProduct);
 
 router.get("/profile", getProfile);
 
