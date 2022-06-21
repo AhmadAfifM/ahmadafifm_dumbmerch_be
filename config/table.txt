@@ -2,7 +2,7 @@ USER TABLE
 npx sequelize-cli model:generate --name user --attributes email:string,password:string,username:string,status:string 
 
 PROFILE TABLE
-npx sequelize-cli model:generate --name profile --attributes phone:string,gender:string,address:text,idUser:integer 
+npx sequelize-cli model:generate --name profile --attributes phone:string,gender:string,address:text,image_profile:string,idUser:integer 
 
 PRODUCTS
 npx sequelize-cli model:generate --name products --attributes product_name:string,desc_product:text,sku_product:string,price_product:integer,qty_product:integer,image_product:string,idUser:integer

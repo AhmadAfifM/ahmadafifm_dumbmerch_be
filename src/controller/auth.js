@@ -14,6 +14,7 @@ exports.register = async (req, res) => {
     username: Joi.string().min(5).required(),
     email: Joi.string().email().min(6).required(),
     password: Joi.string().min(6).required(),
+    re_password: Joi.string().min(6).required(),
   });
 
   const { error } = schema.validate(req.body);
@@ -27,6 +28,14 @@ exports.register = async (req, res) => {
   }
 
   try {
+    // FITUR RE-CHECK PASSWORD
+    if (req.body.password != req.body.re_password) {
+      return res.send({
+        status: "Failed!",
+        message: "Recheck Password Doesn't Match!",
+      });
+    }
+
     const salt = await bcrypt.genSalt(10);
 
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -97,7 +106,7 @@ exports.login = async (req, res) => {
 
     res.status(200).send({
       status: "Success!",
-      message: `Register User ${req.body.username} SUCCESS!`,
+      message: `Register User ${userExist.username} SUCCESS!`,
       data: {
         username: userExist.username,
         email: userExist.email,

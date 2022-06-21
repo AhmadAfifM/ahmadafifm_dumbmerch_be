@@ -1,8 +1,20 @@
+const { Op } = require("sequelize");
 const { user, products, category, category_product } = require("../../models");
 // Get All products
 exports.getProducts = async (req, res) => {
   try {
-    const data = await products.findAll({
+    const search = req.query.search;
+
+    const where = {};
+    console.log(search);
+    if (search) {
+      where[Op.or] = [
+        { product_name: { [Op.like]: `%${search}%` } },
+        { sku_product: { [Op.like]: `%${search}%` } },
+      ];
+    }
+    let data = await products.findAll({
+      where,
       include: [
         {
           model: user,
@@ -17,6 +29,13 @@ exports.getProducts = async (req, res) => {
           },
         },
       ],
+    });
+
+    data = data.map((item) => {
+      item.image_product =
+        "http://localhost:5006/uploads/" + item.image_product;
+
+      return item;
     });
 
     res.send({
@@ -36,10 +55,11 @@ exports.getProducts = async (req, res) => {
 // Get Product Detail
 exports.getProduct = async (req, res) => {
   try {
-    const id = req.params.id;
+    const { id, product_name } = req.params;
     const data = await products.findOne({
       where: {
         id: id,
+        product_name: product_name,
       },
       include: [
         {
@@ -81,7 +101,11 @@ exports.getProduct = async (req, res) => {
 // Add Product
 exports.addProduct = async (req, res) => {
   try {
-    const data = await products.create(req.body);
+    const data = await products.create({
+      ...req.body,
+      image_product: req.file.filename,
+      idUser: req.user.id,
+    });
 
     res.send({
       status: "Success!",
